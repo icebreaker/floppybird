@@ -1,0 +1,5 @@
+build:
+	make
+
+execute:
+	make qemu
