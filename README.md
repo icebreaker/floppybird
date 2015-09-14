@@ -3,7 +3,8 @@ Floppy Bird
 Floppy Bird is a `clone` of the infamous Flappy Bird written in 
 16 bit (x86) assembly. 
 
-In other words it *works* on RAW METAL and doesn't require an Operating System.
+In other words it *works* on **RAW METAL** and doesn't require an underlying
+operating system, it is an *operating system* on its own.
 
 ![Floppy Bird](demo.gif?raw=true "Floppy Bird")
 
