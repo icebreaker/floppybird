@@ -4,11 +4,8 @@
 bits 16
 org 100h
 
-section .text
-
 call main
 jmp $
-; int 20h
 
 %include 'sys/txt.asm'
 %include 'sys/tmr.asm'
