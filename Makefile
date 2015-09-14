@@ -3,15 +3,19 @@ QEMU 		= qemu-system-i386
 QEMU_DRIVE 	= a
 # QEMU_SPEAKER = -soundhw pcspk
 
-NAME 		= floppybird
-FILENAME 	= $(NAME).img
+NAME 		 = floppybird
+FILENAME 	 = $(NAME).img
+COM_FILENAME = flpybird.com
 
 IMAGE 		= build/$(FILENAME)
 ISO_IMAGE 	= build/iso/$(FILENAME)
 ISO 		= build/$(NAME).iso
 ISO_DIR 	= build/iso
 
+COM_TARGET  = build/$(COM_FILENAME)
+
 BOOT 		= src/boot.asm
+COM 		= src/com.asm
 KERNEL 		= src/sys/rnd.asm \
 			  src/sys/snd.asm \
 			  src/sys/tmr.asm \
@@ -33,6 +37,11 @@ all: $(IMAGE)
 $(IMAGE): $(BOOT) $(KERNEL) $(GAME)
 	$(NASM) -isrc/ -f bin -o $(IMAGE) $(BOOT)
 
+$(COM_TARGET): $(COM) $(KERNEL) $(GAME)
+	$(NASM) -isrc/ -DCOM -f bin -o $(COM_TARGET) $(COM)
+
+com: $(COM_TARGET)
+
 usb:
 	sudo dd if=$(IMAGE) of=/dev/sdb
 
@@ -50,9 +59,13 @@ qemu:
 bochs:
 	bochs -q -n 'boot:floppy' 'floppy$(QEMU_DRIVE): 1_44=$(IMAGE), status=inserted'
 
+dosbox:
+	dosbox -conf dosbox.conf $(COM_TARGET)
+
 clean:
 	rm $(IMAGE)
 	rm $(ISO_IMAGE)
 	rm $(ISO)
+	rm $(COM_TARGET)
 
-.PHONY: usb floppy iso qemu bochs clean
+.PHONY: usb floppy iso qemu bochs dosbox clean

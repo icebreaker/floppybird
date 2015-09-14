@@ -92,8 +92,13 @@ main:
 	ret
 
 .reboot:
+%ifdef COM
+	call set_text_mode
+	int 20h						; exit this bad-boy :P
+%else
 	call reboot					; reboot this bad-boy :P
 	ret
+%endif
 
 draw:
 	call draw_background

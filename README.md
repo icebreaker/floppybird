@@ -59,6 +59,25 @@ In the example above, `/dev/sdb` is your USB Drive.
 You can use the [Raw Write 32](http://www.netbsd.org/~martin/rawrite32/)
 utility or your favorite CD Burner like [CDBurnerXP](https://cdburnerxp.se/en/home).
 
+##### M$-DOS (BONUS)
+It is also possible to run `Floppy Bird` as a regular `.COM` executable in any
+`DOS-like` environment, like DOSBox for instance.
+
+To build it type:
+
+```bash
+make com
+```
+
+And then to run it type:
+
+```
+dosbox build/flpybird.com
+```
+
+**Note**: Make sure to set the **cycles** to a reasonable value like **10000** for
+an enjoyable experience.
+
 Contribute
 ----------
 * Fork the project.
