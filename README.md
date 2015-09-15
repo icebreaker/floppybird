@@ -17,9 +17,9 @@ development tools because you can use one of the provided
 However, if you really want to 'compile' it yourself then you'll
 need to install the following tools:
 
-* NASM
-* QEMU
-* GIMP
+* NASM (required)
+* QEMU (optional, needed for testing)
+* GIMP (optional, needed for altering "graphics")
 
 To build it just type in any terminal:
 
