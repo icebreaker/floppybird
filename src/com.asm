@@ -1,12 +1,15 @@
-%define SECTORS 16
+%define SECTORS 16							; keep it under 18
 %define IMAGE_SIZE ((SECTORS + 1) * 512)	; SECTORS + 1 (~= 18) * 512 bytes
 
-bits 16
-org 100h
+bits 16		; 16 bit mode
+org 100h	; entry point "address"
 
-call main
-jmp $
+; entry point
+_start:
+	call main	; call main
+	jmp $		; loop forever
 
+; mixin sys and main
 %include 'sys/txt.asm'
 %include 'sys/tmr.asm'
 %include 'sys/rnd.asm'
