@@ -49,10 +49,10 @@ collide_pipe:
 	mov si, pipes
 	add si, [pipe_a]
 
-	cmp word [si], 92
+	cmp word [si], 74	; front edge of the pipe
 	jg .end
 
-	cmp word [si], 28
+	cmp word [si], 48	; back edge of the pipe
 	jl .score
 
 	mov ax, word [bird_pos + 2]
@@ -140,11 +140,11 @@ draw_pipe:
 
 .body:
 	push pipe
-	push 32			; w
+	push 16			; w
 	push 2			; h
 	push 0			; sx
 	push 0			; sy
-	push 32			; sw
+	push 16			; sw
 	push 2			; sh
 	push word [bp+8]; dx
 	push ax			; dy
@@ -168,13 +168,13 @@ draw_pipe:
 	sub dx, 2
 
 	push pipe_top
-	push 36			; w
+	push 18			; w
 	push 4			; h
 	
 	push 0			; sx
 	push 0			; sy
 	
-	push 36			; sw
+	push 18			; sw
 	push 4			; sh
 
 	push dx			; dx
@@ -220,14 +220,14 @@ randomize_pipe_3:
 
 randomize_pipe_height:
 	call random
-	
-	cmp ax, 42
+
+	cmp ax, 116			; 120 - 6 = 114 will be a max value
 	jge randomize_pipe_height
 
-	cmp ax, 18
+	cmp ax, 40			; 6 (pipe) + 36 (window) = 42 will be a min value
 	jle randomize_pipe_height
 
-	mov cx, ax
+	mov cx, ax			; test if a random number is even (divides by 2)
 	mov bx, 2
 	xor dx, dx
 	div bx
@@ -245,29 +245,28 @@ randomize_pipe:
 	push si
 	pusha
 
-	call randomize_pipe_height
+	call randomize_pipe_height	; UPPER PIPE
 
-	mov bx, 78
-	sub bx, ax
+	mov bx, ax			; range of values: 6 (small) ... 114 (big)
 
 	mov si, [bp + 4]
 
 	mov word [si + 2], bx
 
-	call randomize_pipe_height
-
-	mov bx, 78
-	sub bx, ax
+					; BOTTOM PIPE (depends on the upper pipe)
+	mov bx, 120
+	sub bx, ax			; range of values: 6 (small) ... 114 (big)
 
 	mov word [si + 6], bx
 
-	add ax, 78
+	mov ax, 156			; 156 is a ground
+	sub ax, bx			; root of a bottom pipe
 	mov word [si + 4], ax
 
 	popa
 	pop si
 	pop bp
-	ret 2 ; 1 params * 2 bytes
+	ret 2				; 1 params * 2 bytes
 
 random_pipe_position:
 	call random
@@ -281,8 +280,8 @@ random_pipe_position:
 	ret
 
 reset_pipes:
-	mov word [PIPE_1], 120
-	mov word [PIPE_2], 260
+	mov word [PIPE_1], 160
+	mov word [PIPE_2], 280
 	mov word [PIPE_3], 400
 	mov word [pipe_a], 0
 	ret

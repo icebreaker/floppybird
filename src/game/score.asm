@@ -1,5 +1,5 @@
 add_score:
-	add word [score], 50
+	add word [score], 1
 	ret
 
 new_highscore:
