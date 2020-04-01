@@ -8,6 +8,13 @@ operating system, it is an *operating system* on its own.
 
 ![Floppy Bird](demo.gif?raw=true "Floppy Bird")
 
+Controls
+--------
+* Escape - reboot
+* Backspace - randomize background
+* Tab - randomize bird
+* Any key - start the game, flap the wings
+
 Getting Started
 ---------------
 If you just want to try it out there's no need to install the
@@ -27,6 +34,15 @@ To build it just type in any terminal:
 make
 make iso
 ```
+
+How to edit the TGA images with GIMP (tested at 2.8.22)
+-------------------------------------------------------
+* install the required VGA palette located at `./data/rgb/palette/` to GIMP
+* import the source image from the rgb directory - i.e. `./data/rgb/bird.tga`
+* Image -> Mode -> Indexed... , Use custom palette (don't remove the unused colors)
+* if needed (i.e. `bird.tga`) add a new background layer, fill with black then merge
+* do your edits, if needed update the sizes at `./src/game/data.asm` and other places
+* export as uncompressed TGA with origin set to Top-Left and 256 color map (palette)
 
 ##### Versions
 

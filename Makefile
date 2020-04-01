@@ -8,6 +8,7 @@ FILENAME 	 = $(NAME).img
 COM_FILENAME = flpybird.com
 
 IMAGE 		= build/$(FILENAME)
+FLOPPY_IMAGE 	= build/img/$(FILENAME)
 ISO_IMAGE 	= build/iso/$(FILENAME)
 ISO 		= build/$(NAME).iso
 ISO_DIR 	= build/iso
@@ -46,8 +47,9 @@ usb:
 	sudo dd if=$(IMAGE) of=/dev/sdb
 
 floppy:
-	dd bs=512 count=2880 if=/dev/zero of=$(ISO_IMAGE)
-	dd status=noxfer conv=notrunc if=$(IMAGE) of=$(ISO_IMAGE)
+	dd status=noxfer conv=notrunc iflag=nocache bs=512 count=2880 if=/dev/zero of=$(FLOPPY_IMAGE)
+	dd status=noxfer conv=notrunc iflag=nocache if=$(IMAGE) of=$(FLOPPY_IMAGE)
+	cp $(FLOPPY_IMAGE) $(ISO_IMAGE)
 
 iso:
 	$(MAKE) floppy
@@ -63,9 +65,10 @@ dosbox:
 	dosbox -conf dosbox.conf $(COM_TARGET)
 
 clean:
-	rm $(IMAGE)
-	rm $(ISO_IMAGE)
-	rm $(ISO)
-	rm $(COM_TARGET)
+	rm -f $(IMAGE)
+	rm -f $(FLOPPY_IMAGE)
+	rm -f $(ISO_IMAGE)
+	rm -f $(ISO)
+	rm -f $(COM_TARGET)
 
 .PHONY: usb floppy iso qemu bochs dosbox clean
